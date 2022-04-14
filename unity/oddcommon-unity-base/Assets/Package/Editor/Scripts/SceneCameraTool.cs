@@ -61,13 +61,13 @@ public class SceneCameraTool : EditorWindow
         instance = this;
         targetCam = Camera.main;
 
-        UnityEditor.SceneView.beforeSceneGui-=OnPreSceneGUI;
-        UnityEditor.SceneView.beforeSceneGui+=OnPreSceneGUI;
+        UnityEditor.SceneView.beforeSceneGui -= OnPreSceneGUI;
+        UnityEditor.SceneView.beforeSceneGui += OnPreSceneGUI;
     }
 
     private void OnDisable()
     {
-        UnityEditor.SceneView.beforeSceneGui-=OnPreSceneGUI;
+        UnityEditor.SceneView.beforeSceneGui -= OnPreSceneGUI;
     }
 
     public static void SRepaint()
@@ -89,12 +89,19 @@ public class SceneCameraTool : EditorWindow
         var sceneViewCam = SceneView.lastActiveSceneView.camera;
 
         if (resetFovOnce)
-            resetFovOnce = false;
+        {
+            resetFovOnce = false;   
+        }
         else
-            sceneViewCam.fieldOfView = controledProperties.fov; // Trick to control the scene cam fov. We need to override it every time or it will get reset by the Unity Editor
+        {
+            // Trick to control the scene cam fov. We need to override it every time or it will get reset by the Unity Editor
+            sceneViewCam.fieldOfView = controledProperties.fov;   
+        }
 
         if (sceneViewCam.transform.hasChanged)
-            SRepaint();
+        {
+            SRepaint();   
+        }
 
 
         // Update the position changes from scene view control
