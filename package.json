@@ -1,0 +1,9 @@
+{
+    "name": "com.oddcommon.base",
+    "version": "2.0.0",
+    "displayName": "OddCommon Base",
+    "description": "This package provides base Unity scripts/classes that can be used in all OddCommon Unity projects, as well as debug functionality.",
+    "unity": "2019.4",
+    "keywords": ["OddCommon", "Base", "Debug", "Logger"],
+    "author": { "name": "OddCommon", "email": "ellis@oddcommon.com", "url": "http://oddcommon.com" }
+}
