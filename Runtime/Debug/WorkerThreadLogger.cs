@@ -7,14 +7,14 @@ namespace OddCommon.Debug
     {
         #region Methods
         #region Unity Messages
-        private void Start()
+        protected virtual void Start()
         {
             AppDomain.CurrentDomain.UnhandledException += this.WorkerThreadUnhandledExceptionHandler;
         }
         #endregion //Unity Messages
 
         #region Event Handlers
-        private void WorkerThreadUnhandledExceptionHandler(object obj, UnhandledExceptionEventArgs args)
+        protected virtual void WorkerThreadUnhandledExceptionHandler(object obj, UnhandledExceptionEventArgs args)
         {
             Logging.Exception(args.ExceptionObject as Exception);
         }
