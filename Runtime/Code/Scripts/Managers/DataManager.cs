@@ -1,6 +1,9 @@
+using System;
 using OddCommon;
 using UnityEngine;
 
+
+[ScriptOrder(Int32.MinValue)]
 public class DataManager : OddBehaviourSingle<DataManager>
 {
     #region Fields
