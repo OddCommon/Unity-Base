@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
 
 
@@ -12,11 +11,12 @@ namespace OddCommon
          */
     }
     
-    public class OddBehaviour<T> : MonoBehaviour where T : OddScriptableObjectSingle<T>
+    public class OddBehaviour<T> : OddBehaviour where T : OddScriptableObjectSingle<T>
     {
         #region Instance
         #region Fields
         #region Inspector
+        [Header("OddBehaviour")]
         [SerializeField] private DataManager dataManager;
         #endregion //Inspector
 
@@ -31,6 +31,11 @@ namespace OddCommon
         {
             Assert.IsNotNull( this.dataManager );
             this.runtimeData = this.dataManager.GetData<T>();
+        }
+
+        protected virtual void OnDestroy()
+        {
+            this.runtimeData = null;
         }
         #endregion //Unity Messages
         #endregion //Methods
