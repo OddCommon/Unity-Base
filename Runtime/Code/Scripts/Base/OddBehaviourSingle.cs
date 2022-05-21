@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using OddCommon.Debug;
+using Object = UnityEngine.Object;
+
 
 /*  
         These single classes only insures that there is one object of this component/type
@@ -65,9 +67,9 @@ namespace OddCommon
         #endregion //Instance
     }
     
-    public class OddBehaviourSingle<TypeRuntimeData, TypeComponent> : OddBehaviour<TypeRuntimeData>
-        where TypeRuntimeData : OddScriptableObjectSingle<TypeRuntimeData>
+    public class OddBehaviourSingle<TypeComponent, TypeRuntimeData> : OddBehaviour<TypeRuntimeData>
         where TypeComponent : OddBehaviour<TypeRuntimeData>
+        where TypeRuntimeData : OddScriptableObjectSingle<TypeRuntimeData>
     {
         #region Class
         #region Fields
@@ -89,10 +91,10 @@ namespace OddCommon
         {
             base.Awake();
             string fullName = typeof(TypeComponent).FullName;
-            if (OddBehaviourSingle<TypeRuntimeData, TypeComponent>.instance == null)
+            if (OddBehaviourSingle<TypeComponent, TypeRuntimeData>.instance == null)
             {
                 // First instance of this OddBehaviourSingle, so we set ourselves as the protected instance
-                OddBehaviourSingle<TypeRuntimeData, TypeComponent>.instance = this as TypeComponent;
+                OddBehaviourSingle<TypeComponent, TypeRuntimeData>.instance = this as TypeComponent;
                 Logging.Log("[{0}] Setting first instance as single instance.", fullName);
             }
             else
@@ -110,11 +112,12 @@ namespace OddCommon
             }
         }
 
-        protected virtual void OnDestroy()
+        protected override void OnDestroy()
         {
-            if (OddBehaviourSingle<TypeRuntimeData, TypeComponent>.instance == this as TypeComponent)
+            base.OnDestroy();
+            if (OddBehaviourSingle<TypeComponent, TypeRuntimeData>.instance == this as TypeComponent)
             {
-                OddBehaviourSingle<TypeRuntimeData, TypeComponent>.instance = null;
+                OddBehaviourSingle<TypeComponent, TypeRuntimeData>.instance = null;
                 string fullName = typeof(TypeComponent).FullName;
                 Logging.Log("[{0}] Singleton instance is being destroyed.", fullName);
             }

@@ -8,13 +8,13 @@ public class DataManager : OddBehaviourSingle<DataManager>
 {
     #region Fields
     #region Inspector
-    [SerializeField] private ScriptableObject runtimeData;
+    [SerializeField] private OddScriptableObject runtimeData;
     #endregion //Inspector
     #endregion //Fields
     
     #region Methods
     #region Public
-    public T GetData<T>() where T : ScriptableObject
+    public T GetData<T>() where T : OddScriptableObject
     {
         return this.runtimeData as T;
     }

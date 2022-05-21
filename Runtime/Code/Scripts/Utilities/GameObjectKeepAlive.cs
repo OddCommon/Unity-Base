@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using OddCommon.Debug;
-using Newtonsoft;
-using Newtonsoft.Json.Linq;
-using UnityEngine.EventSystems;
+﻿using OddCommon.Debug;
+
 using Object = UnityEngine.Object;
 
 
