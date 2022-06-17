@@ -17,7 +17,7 @@ namespace OddCommon
         #region Fields
         #region Inspector
         [Header("OddBehaviour")]
-        [SerializeField] private DataManager dataManager;
+        [SerializeField] private DataManager<T> dataManager;
         #endregion //Inspector
 
         #region Protected
@@ -30,7 +30,8 @@ namespace OddCommon
         protected virtual void Awake()
         {
             Assert.IsNotNull( this.dataManager );
-            this.runtimeData = this.dataManager.GetData<T>();
+            
+            this.runtimeData = this.dataManager.GetData();
         }
 
         protected virtual void OnDestroy()
