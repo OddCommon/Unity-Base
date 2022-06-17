@@ -4,34 +4,31 @@ using UnityEngine;
 
 
 [ScriptOrder(Int32.MinValue)]
-public class DataManager<T> : OddBehaviourSingle<DataManager<T>> where T : OddScriptableObjectSingle<T>
+public class DataManager : OddBehaviourSingle<DataManager>
 {
     #region Fields
     #region Inspector
-    [SerializeField] private T runtimeData;
+    [SerializeField] private OddScriptableObject runtimeData;
     #endregion //Inspector
     #endregion //Fields
     
     #region Methods
-    #region Unity Messages
-    protected override void Awake()
+    #region Public
+    public T GetData<T>() where T : OddScriptableObject
     {
-        base.Awake();
         if (this.runtimeData == null)
         {
-            T runtimeDataCandidate = GameObject.FindObjectOfType<T>();
-            this.runtimeData =
-                    runtimeDataCandidate != null && !runtimeDataCandidate.isBeingDestroyed ? 
-                    runtimeDataCandidate :
-                    null;
+            OddScriptableObjectSingle<T>[] runtimeDataCandidates = GameObject.FindObjectsOfType<OddScriptableObjectSingle<T>>();
+            foreach (OddScriptableObjectSingle<T> potentialRuntimeData in runtimeDataCandidates)
+            {
+                if (!potentialRuntimeData.isBeingDestroyed)
+                {
+                    this.runtimeData = potentialRuntimeData;
+                    break;
+                }
+            }
         }
-    }
-    #endregion //Unity Messages
-    
-    #region Public
-    public T GetData()
-    {
-        return this.runtimeData;
+        return this.runtimeData as T;
     }
     #endregion //Public
     #endregion //Methods
