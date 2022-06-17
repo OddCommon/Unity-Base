@@ -15,6 +15,12 @@ namespace OddCommon
         #endregion //Class
 
         #region Instance
+        #region Fields
+        #region Public
+        public bool isBeingDestroyed;
+        #endregion //Public
+        #endregion //Fields
+        
         #region Methods
         #region Unity Messages
         protected void Awake()
@@ -22,11 +28,13 @@ namespace OddCommon
             string fullName = typeof(T).FullName;
             if (OddScriptableObjectSingle<T>.instance == null)
             {
+                this.isBeingDestroyed = false;
                 OddScriptableObjectSingle<T>.instance = this as T;
                 Logging.Log("[{0}] Setting first instance as single instance.", fullName);
             }
             else
             {
+                this.isBeingDestroyed = true;
                 #if UNITY_EDITOR
                 if (Application.isEditor && !Application.isPlaying)
                 {
