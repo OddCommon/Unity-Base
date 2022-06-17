@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [ScriptOrder(Int32.MinValue)]
-public class DataManager : OddBehaviourSingle<DataManager>
+public class DataManager : OddBehaviour
 {
     #region Fields
     #region Inspector
@@ -14,12 +14,13 @@ public class DataManager : OddBehaviourSingle<DataManager>
     
     #region Methods
     #region Public
-    public T GetData<T>() where T : OddScriptableObject
+    public T GetData<T>() where T : OddScriptableObjectSingle<T>
     {
-        if (this.runtimeData == null)
+        bool findRuntimeData = this.runtimeData == null || ((T)this.runtimeData).isBeingDestroyed;
+        if (findRuntimeData)
         {
-            OddScriptableObjectSingle<T>[] runtimeDataCandidates = GameObject.FindObjectsOfType<OddScriptableObjectSingle<T>>();
-            foreach (OddScriptableObjectSingle<T> potentialRuntimeData in runtimeDataCandidates)
+            T[] runtimeDataCandidates = GameObject.FindObjectsOfType<T>();
+            foreach (T potentialRuntimeData in runtimeDataCandidates)
             {
                 if (!potentialRuntimeData.isBeingDestroyed)
                 {
