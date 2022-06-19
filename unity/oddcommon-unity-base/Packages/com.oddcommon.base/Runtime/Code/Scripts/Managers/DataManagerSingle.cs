@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [DefaultExecutionOrder(Int32.MinValue)]
-public class DataManager : OddBehaviour
+public class DataManagerSingle : OddBehaviourSingle<DataManagerSingle>
 {
     #region Fields
     #region Inspector
