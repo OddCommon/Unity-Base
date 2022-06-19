@@ -64,5 +64,4 @@ namespace OddCommon
         #endregion //Methods
         #endregion //Instance
     }
-
 }
