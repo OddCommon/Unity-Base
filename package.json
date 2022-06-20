@@ -1,6 +1,6 @@
 {
     "name": "com.oddcommon.base",
-    "version": "2.1.1",
+    "version": "3.0.0",
     "displayName": "OddCommon Base",
     "description": "This package provides base Unity scripts/classes that can be used in all OddCommon Unity projects, as well as debug functionality.",
     "unity": "2020.3",

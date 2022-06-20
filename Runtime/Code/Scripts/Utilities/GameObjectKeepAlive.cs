@@ -5,13 +5,15 @@ using Object = UnityEngine.Object;
 
 namespace OddCommon
 {
-    public class GameObjectKeepAlive : OddBehaviour
+    public class GameObjectKeepAlive : OddBehaviour<GameObjectKeepAlive>
     {
         #region Instance
         #region Methods
         #region Unity Messages
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            this.onlyAllowSingleInstance = false;
             Object.DontDestroyOnLoad(this.gameObject);
             Logging.Log
             (

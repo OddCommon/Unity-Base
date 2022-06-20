@@ -1,36 +1,45 @@
 using System;
 using OddCommon;
+using OddCommon.Debug;
 using UnityEngine;
 
 
 [DefaultExecutionOrder(Int32.MinValue)]
-public class DataManager : OddBehaviour
+public class DataManager<T1> : OddBehaviour<DataManager<T1>>, IRuntimeDataInjector where T1 : OddScriptableObject<T1>
 {
     #region Fields
     #region Inspector
-    [SerializeField] private OddScriptableObject runtimeData;
+    [SerializeField] private OddScriptableObject<T1> runtimeData;
     #endregion //Inspector
     #endregion //Fields
     
     #region Methods
-    #region Public
-    public T GetData<T>() where T : OddScriptableObjectSingle<T>
+    #region IRuntimeDataInjector
+    public T2 GetData<T2>() where T2 : OddScriptableObject<T2>
     {
-        bool findRuntimeData = this.runtimeData == null || ((T)this.runtimeData).isBeingDestroyed;
-        if (findRuntimeData)
+        if (typeof(T2) == typeof(T1))
         {
-            T[] runtimeDataCandidates = Resources.FindObjectsOfTypeAll<T>();
-            foreach (T potentialRuntimeData in runtimeDataCandidates)
+            bool findRuntimeData = this.runtimeData == null || this.runtimeData.isBeingDestroyed;
+            if (findRuntimeData)
             {
-                if (!potentialRuntimeData.isBeingDestroyed)
+                T2[] runtimeDataCandidates = Resources.FindObjectsOfTypeAll<T2>();
+                foreach (T2 potentialRuntimeData in runtimeDataCandidates)
                 {
-                    this.runtimeData = potentialRuntimeData;
-                    break;
+                    if (!potentialRuntimeData.isBeingDestroyed)
+                    {
+                        this.runtimeData = potentialRuntimeData as OddScriptableObject<T1>;
+                        break;
+                    }
                 }
             }
+            return this.runtimeData as T2;   
         }
-        return this.runtimeData as T;
+        else
+        {
+            Logging.Warn("[{0}] Type of GetData<T> does not match underlying typf of DataManager<T>.runtimeData.", this.name);
+            return null;
+        }
     }
-    #endregion //Public
+    #endregion //IRuntimeDataInjector
     #endregion //Methods
 }

@@ -17,12 +17,20 @@ namespace OddCommon.Tests
             OddScriptableObjectSingleTest testScriptableObjectTwo =
                 ScriptableObject.CreateInstance<OddScriptableObjectSingleTest>();
             yield return null;
-            Assert.IsTrue((testScriptableObjectOne != null) && (testScriptableObjectTwo == null));
+            Assert.IsTrue(!testScriptableObjectOne.isBeingDestroyed && (testScriptableObjectTwo == null || testScriptableObjectTwo.isBeingDestroyed));
         }
 
-        private class OddScriptableObjectSingleTest : OddScriptableObjectSingle<OddScriptableObjectSingleTest>
+        private class OddScriptableObjectSingleTest : OddScriptableObject<OddScriptableObjectSingleTest>
         {
-            
+            #region Methods
+            #region Unity Messages
+            protected override void Awake()
+            {
+                this.onlyAllowSingleRuntimeInstance = true;
+                base.Awake();
+            }
+            #endregion //Unity Messages
+            #endregion //Methods
         }
     }
 }

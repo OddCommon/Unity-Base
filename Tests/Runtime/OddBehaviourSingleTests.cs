@@ -32,9 +32,23 @@ namespace OddCommon.Tests
             Assert.IsTrue((testOddBehaviourSingleOne != null) && (testOddBehaviourSingleTwo == null));
         }
 
-        private class OddBehaviourSingleTest : OddBehaviourSingle<OddBehaviourSingleTest>, IMonoBehaviourTest
+        private class OddBehaviourSingleTest : OddBehaviour<OddBehaviourSingleTest>, IMonoBehaviourTest
         {
+            #region Fields
+            #region Public
             public bool IsTestFinished => true;
+            #endregion //Public
+            #endregion //Fields
+
+            #region Methods
+            #region Unity Messages
+            protected override void Awake()
+            {
+                this.onlyAllowSingleInstance = true;
+                base.Awake();
+            }
+            #endregion //Unity Messages
+            #endregion //Methods
         }
     }
 }
