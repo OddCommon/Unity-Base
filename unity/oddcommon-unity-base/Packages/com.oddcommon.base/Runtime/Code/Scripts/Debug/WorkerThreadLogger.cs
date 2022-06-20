@@ -3,10 +3,16 @@
 
 namespace OddCommon.Debug
 {
-    public class WorkerThreadLogger : OddBehaviourSingle<WorkerThreadLogger>
+    public class WorkerThreadLogger : OddBehaviour<WorkerThreadLogger>
     {
         #region Methods
         #region Unity Messages
+        protected override void Awake()
+        {
+            this.onlyAllowSingleInstance = true;
+            base.Awake();
+        }
+
         protected virtual void Start()
         {
             AppDomain.CurrentDomain.UnhandledException += this.WorkerThreadUnhandledExceptionHandler;
