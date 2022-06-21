@@ -6,7 +6,13 @@ using UnityEngine;
 namespace OddCommon
 {
     [Serializable]
-    public class OddScriptableObject<T> : ScriptableObject where T : OddScriptableObject<T>
+    public class OddScriptableObject : ScriptableObject
+    {
+        // Base class of generics are similarly named for backward compatibility reasons.
+    }
+    
+    [Serializable]
+    public class OddScriptableObject<T> : OddScriptableObject where T : OddScriptableObject<T>
     {
         #region Class
         #region Fields

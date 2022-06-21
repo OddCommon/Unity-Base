@@ -5,7 +5,12 @@ using UnityEngine.Assertions;
 
 namespace OddCommon
 {
-    public class OddBehaviour<T> : MonoBehaviour where T : OddBehaviour<T>
+    public class OddBehaviour : MonoBehaviour
+    {
+        // Base class of generics are similarly named for backward compatibility reasons.
+    }
+    
+    public class OddBehaviour<T> : OddBehaviour where T : OddBehaviour<T>
     {
         #region Class
         #region Fields
