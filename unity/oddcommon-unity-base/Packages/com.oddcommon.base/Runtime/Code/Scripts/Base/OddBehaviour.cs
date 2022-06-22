@@ -84,7 +84,7 @@ namespace OddCommon
         #region Fields
         #region Inspector
         [Header("OddBehaviour<TypeComponent,TypeData")]
-        [SerializeField] private IRuntimeDataInjector runtimeDataInjector;
+        [SerializeField] private DataManager runtimeDataInjector;
         #endregion //Inspector
     
         #region Protected

@@ -2,44 +2,42 @@ using System;
 using OddCommon;
 using OddCommon.Debug;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 
 [DefaultExecutionOrder(Int32.MinValue)]
-public class DataManager<T1> : OddBehaviour<DataManager<T1>>, IRuntimeDataInjector where T1 : OddScriptableObject<T1>
+public class DataManager : OddBehaviour<DataManager>
 {
     #region Fields
     #region Inspector
-    [SerializeField] private OddScriptableObject<T1> runtimeData;
+    [SerializeField] private OddScriptableObject runtimeData;
     #endregion //Inspector
     #endregion //Fields
     
     #region Methods
-    #region IRuntimeDataInjector
-    public T2 GetData<T2>() where T2 : OddScriptableObject<T2>
+    #region Public
+    public T GetData<T>() where T : OddScriptableObject<T>
     {
-        if (typeof(T2) == typeof(T1))
+        T castRuntimeData = null;
+        if (this.runtimeData != null)
         {
-            bool findRuntimeData = this.runtimeData == null || this.runtimeData.isBeingDestroyed;
-            if (findRuntimeData)
+            castRuntimeData = this.runtimeData as T;
+        }
+        if (castRuntimeData == null || castRuntimeData.isBeingDestroyed)
+        {
+            T[] runtimeDataCandidates = Resources.FindObjectsOfTypeAll<T>();
+            foreach (T potentialRuntimeData in runtimeDataCandidates)
             {
-                T2[] runtimeDataCandidates = Resources.FindObjectsOfTypeAll<T2>();
-                foreach (T2 potentialRuntimeData in runtimeDataCandidates)
+                if (!potentialRuntimeData.isBeingDestroyed)
                 {
-                    if (!potentialRuntimeData.isBeingDestroyed)
-                    {
-                        this.runtimeData = potentialRuntimeData as OddScriptableObject<T1>;
-                        break;
-                    }
+                    this.runtimeData = potentialRuntimeData;
+                    castRuntimeData = potentialRuntimeData;
+                    break;
                 }
             }
-            return this.runtimeData as T2;   
         }
-        else
-        {
-            Logging.Warn("[{0}] Type of GetData<T> does not match underlying typf of DataManager<T>.runtimeData.", this.name);
-            return null;
-        }
+        return castRuntimeData;
     }
-    #endregion //IRuntimeDataInjector
+    #endregion //Public
     #endregion //Methods
 }
